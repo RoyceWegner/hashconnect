@@ -37,6 +37,7 @@ import { TokenFreezeAccountComponent } from './components/token-freeze-account/t
 import { TokenUnfreezeAccountComponent } from './components/token-unfreeze-account/token-unfreeze-account.component';
 import { PrngTransactionComponent } from './components/prng-transaction/prng-transaction.component';
 import { TokenFeeUpdateComponent } from './components/token-fee-update/token-fee-update.component';
+import { CryptoDashboardComponent } from './components/crypto-dashboard/crypto-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -73,8 +74,8 @@ import { TokenFeeUpdateComponent } from './components/token-fee-update/token-fee
     TokenFreezeAccountComponent,
     TokenUnfreezeAccountComponent,
     PrngTransactionComponent,
-    TokenFeeUpdateComponent
-
+    TokenFeeUpdateComponent,
+    CryptoDashboardComponent
   ],
   imports: [
     BrowserModule,
