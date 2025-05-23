@@ -7,9 +7,7 @@
 
         <div class="profile" *ngIf="HashConnectService.userProfile">
             <div class="profile_wrap">
-                <div class="profile__avatar">
-                    <img [src]="HashConnectService.userProfile.profilePicture.thumbUrl" alt="avatar">
-                </div>
+
                 <div class="profile__name">
                     <h3>{{ HashConnectService.userProfile.username.name || HashConnectService.userProfile.accountId }}</h3>
                 </div>
