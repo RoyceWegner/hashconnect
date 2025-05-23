@@ -1,3 +1,514 @@
+<html>
+<head>
+    <script type="text/javascript">
+        function zoom() {
+            document.body.style.zoom = "50%";
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 2px;
+        }
+
+        .widget {
+            border: 1px solid #ccc;
+            padding: 2px;
+        }
+
+        .widget h2 {
+            font-size: 20px;
+            font-weight: bold; /* Makes the heading bold */
+            color: #ffffff;
+        }
+
+        .widget p {
+            font-size: 16px;
+            font-weight: bold; /* Makes the text thicker and bold */
+            color: #d4af5e;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 150px;
+        }
+
+        @keyframes pulsate-bold-scale {
+            0% {
+                color: #d4af5e;
+                transform: scale(1);
+                font-weight: bold; /* Bold text for animation */
+            }
+            50% {
+                color: green;
+                transform: scale(1.02);
+                font-weight: bold;
+            }
+            100% {
+                color: #d4af5e;
+                transform: scale(1);
+                font-weight: bold;
+            }
+        }
+
+        .pulsate-bold-scale {
+            animation: pulsate-bold-scale 1s infinite;
+        }
+
+        @keyframes flash-red {
+            0% {
+                color: #d4af5e;
+                transform: scale(1);
+                font-weight: bold;
+            }
+            50% {
+                color: red;
+                transform: scale(1.01);
+                font-weight: bold;
+            }
+            100% {
+                color: #d4af5e;
+                transform: scale(1.01);
+                font-weight: bold;
+            }
+        }
+
+        .flash-red {
+            animation: flash-red 1s infinite;
+        }
+
+        @keyframes flash-green {
+            0% {
+                color: #d4af5e;
+                transform: scale(1.01);
+                font-weight: bold;
+            }
+            50% {
+                color: green;
+                transform: scale(1.01);
+                font-weight: bold;
+            }
+            100% {
+                color: #d4af5e;
+                transform: scale(1.01);
+                font-weight: bold;
+            }
+        }
+
+        .flash-green {
+            animation: flash-green 1s infinite;
+        }
+
+        .pulse-container {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .pulse-image {
+            height: 50px;
+        }
+
+        font {
+            font-weight: bold; /* Applies bold styling to all <font> elements */
+        }
+          .header {
+            font-family: 'Familjen Grotesk', sans-serif;
+            font-size: 96px;
+            color: #d4af5e;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<br>
+ <center>
+
+    <style>
+        /* Create the shimmer effect */
+        @keyframes gold-shimmer {
+            0% {
+                background-position: -200%;
+            }
+            100% {
+                background-position: 200%;
+            }
+        }
+
+        .shimmer-effect {
+            display: inline-block;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            color: transparent; /* Hide normal text color */
+            background: linear-gradient(
+                to right,
+                #d4af5e 0%,
+                #fffacd 50%,
+                #d4af5e 100%
+            );
+            background-size: 200% auto; /* Wider background for animation */
+            background-clip: text; /* Only show gradient on text */
+            -webkit-background-clip: text; /* Safari/Chrome support */
+            animation: gold-shimmer 3s linear infinite; /* Smooth shimmer movement */
+        }
+    </style>
+
+    <!-- 🔥 Blaze Theme -->
+<style>
+  .theme-blaze {
+    background: linear-gradient(to bottom right, #330000, #660000, #1a0000);
+    color: #ff6600;
+  }
+
+  .theme-blaze .widget,
+  .theme-blaze .price-box {
+    border: 1px solid #ff6600;
+    background-color: rgba(32, 0, 0, 0.9);
+    color: #ff6600;
+  }
+
+  .theme-blaze .widget h2,
+  .theme-blaze .widget p,
+  .theme-blaze .price-box h2,
+  .theme-blaze .price-box p {
+    color: #ff6600;
+  }
+
+  .theme-blaze .glow {
+    text-shadow: 0 0 10px #ff6600, 0 0 20px #ff3300;
+  }
+
+  .theme-blaze select,
+  .theme-blaze button {
+    border: 1px solid #ff6600;
+    background-color: transparent;
+    color: #ff6600;
+  }
+
+  .theme-blaze .flash-red {
+    animation: flash-red 1s infinite;
+    color: red !important;
+  }
+
+  .theme-blaze .flash-green {
+    animation: flash-green 1s infinite;
+    color: #ff6600 !important;
+  }
+
+  .theme-blaze .flash-gray-white {
+    animation: flash-gray-white 1s infinite;
+    color: #ffffff;
+  }
+
+  @keyframes flash-gray-white {
+    0% { color: #ff6600; }
+    50% { color: #ffffcc; }
+    100% { color: #ff6600; }
+  }
+</style>
+
+<!-- ❄️ Ice Theme -->
+<style>
+  .theme-ice {
+    background: linear-gradient(to bottom right, #002233, #004466, #001122);
+    color: #99e0ff;
+  }
+
+  .theme-ice .widget,
+  .theme-ice .price-box {
+    border: 1px solid #99e0ff;
+    background-color: rgba(0, 32, 64, 0.9);
+    color: #99e0ff;
+  }
+
+  .theme-ice .widget h2,
+  .theme-ice .widget p,
+  .theme-ice .price-box h2,
+  .theme-ice .price-box p {
+    color: #99e0ff;
+  }
+
+  .theme-ice .glow {
+    text-shadow: 0 0 10px #99e0ff, 0 0 20px #66ccff;
+  }
+
+  .theme-ice select,
+  .theme-ice button {
+    border: 1px solid #99e0ff;
+    background-color: transparent;
+    color: #99e0ff;
+  }
+
+  .theme-ice .flash-red {
+    animation: flash-red 1s infinite;
+    color: red !important;
+  }
+
+  .theme-ice .flash-green {
+    animation: flash-green 1s infinite;
+    color: #99e0ff !important;
+  }
+
+  .theme-ice .flash-gray-white {
+    animation: flash-gray-white 1s infinite;
+    color: #ffffff;
+  }
+
+  @keyframes flash-gray-white {
+    0% { color: #99e0ff; }
+    50% { color: #ffffff; }
+    100% { color: #99e0ff; }
+  }
+</style>
+</body>
+<br>
+
+    </center>
+
+    <div class="grid-container" id="result"></div>
+
+<script>
+    function fetchCryptoData() {
+        var tokens = [ 'usd-coin', 'saucerswap'];
+        var url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + tokens.join(',') + '&sparkline=true';
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                var cryptoData = data;
+                var gridContainer = document.getElementById('result');
+
+                // Clear existing widgets (to avoid duplicates)
+                gridContainer.innerHTML = "";
+
+                cryptoData.forEach(token => {
+                    var name = token.name;
+                    var symbol = token.symbol;
+                    var price = token.current_price;
+                    var sparkline = token.sparkline_in_7d.price;
+                    var circulatingSupply = token.circulating_supply;
+                    var totalSupply = token.total_supply;
+                    var totalVolume = token.total_volume;
+                    var gainLossPercentage = token.price_change_percentage_24h.toFixed(2);
+
+                    var widget = document.createElement('div');
+                    widget.classList.add('widget');
+                    widget.innerHTML = `
+                        <h2>${name} (${symbol})</h2>
+                        <p>Price: $${price}</p>
+                        <p>Total Supply: ${totalSupply}</p>
+                        <p>Circulating Supply: ${circulatingSupply}</p>
+                        <p>24h trade vol: $${totalVolume}</p>
+                        <p class="${gainLossPercentage <= -10.11 ? 'flash-green' : (gainLossPercentage >= 9.22 ? 'flash-red' : (gainLossPercentage <= -4.22 ? 'flash-gray-white' : ''))}">
+                            24h Gain/Loss: ${gainLossPercentage}%
+
+        ${
+            gainLossPercentage <= -10.11
+                ? '<span style="color: lime; font-size: 24px; font-weight: bold; animation: flash-green 1s infinite;">BUY!</span>'
+                : gainLossPercentage >= 9.22
+                ? '<span style="color: red; font-size: 24px; font-weight: bold; animation: flash-red 1s infinite;">SELL!</span>'
+                : gainLossPercentage <= -4.22
+                ? '<span style="color: white; font-size: 24px; font-weight: bold; animation: flash-gray-white 1s infinite;">HOLD!</span>'
+                : gainLossPercentage <= 4.22
+                ? '<span style="color: white; font-size: 24px; font-weight: bold; animation: flash-gray-white 1s infinite;">HOLD!</span>'
+                : ''
+        }
+    </p>
+                        </p>
+                        <div class='chart-container'><canvas id='${symbol}-chart'></canvas></div>
+                    `;
+                    gridContainer.appendChild(widget);
+
+                    var chartCanvas = document.getElementById(symbol + '-chart').getContext('2d');
+                    new Chart(chartCanvas, {
+                        type: 'line',
+                        data: {
+                            labels: Array.from(Array(sparkline.length).keys()),
+                            datasets: [{
+                                label: 'Performance in 7 Days (USD)',
+                                data: sparkline,
+                                borderColor: 'rgba(212, 175, 94, 255)',
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            });
+    }
+
+    function softRefresh() {
+        fetchCryptoData(); // Refresh the crypto data
+    }
+
+    // Initial data fetch
+    fetchCryptoData();
+
+    // Soft refresh every 40 seconds
+    window.setInterval(softRefresh, 40000);
+</script>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #000;
+        color: #d4af5e;
+        text-align: left;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap; /* Allow boxes to wrap to the next line */
+        justify-content: space-evenly; /* Distribute space evenly between boxes */
+        gap: 10px; /* Adjust spacing between boxes */
+        margin: 20px; /* Outer margin for the container */
+    }
+    .price-box {
+        padding: 10px;
+        border: 1px solid #ccc;
+        height: 415px; /* Fixed height */
+        width: 315px; /* Fixed width */
+        background-color: #1a1a1a;
+        border-radius: 4px;
+        box-sizing: border-box; /* Ensure padding does not exceed box width */
+    }
+    .price-box h2 {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    .price-box p {
+        font-size: 14px;
+        margin: 5px 0;
+    }
+</style>
+
+    <script>
+        async function fetchBitcoinHPrice() {
+            const url = 'https://api.dexscreener.com/latest/dex/pairs/hedera/0xc193530cc0c1cab96ab5607e7c67d720becc1cee';
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const price = data.pair.priceUsd || "N/A";
+                const marketCap = data.pair.marketCapUsd || "N/A";
+                const totalSupply = data.pair.totalSupply || "21 Million BTC.H"; // Default if unavailable
+
+                document.getElementById('price').innerText = `$${parseFloat(price).toFixed(4)}`;
+                document.getElementById('marketcap').innerText = marketCap !== "N/A" ? `$${marketCap}` : "N/A";
+                document.getElementById('totalsupply').innerText = totalSupply;
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                document.getElementById('price').innerText = "Error fetching price";
+                document.getElementById('marketcap').innerText = "Error fetching market cap";
+                document.getElementById('totalsupply').innerText = "Error fetching supply";
+            }
+        }
+
+        fetchBitcoinHPrice();
+    </script>
+
+</body>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- INCLUDING JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <!-- CSS FOR STYLING THE PAGE -->
+    <style>
+        body {
+
+            color: #FFFFFF;
+            font-family: 'Calibri', 'Gill Sans MT', 'Trebuchet MS', 'sans-serif';
+        }
+
+        table {
+            margin: 0 auto;
+            color: #FFFFFF;
+            font-size: large;
+            border: 5px solid black;
+        }
+
+        h1 {
+            text-align: center;
+            color: #FFFFFF;
+            font-size: xx-large;
+        }
+
+        td, th {
+            background-color: #000000;
+            color: #FFFFFF;
+            font-weight: bold;
+            border: 1px solid;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #content {
+            display: none; /* Initially hide the content */
+        }
+
+        .ht-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #FFFFFF;
+            background-color: #BA8E23;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .ht-button:hover {
+            background-color: #8A6B1A;
+        }
+    </style>
+</head>
+<body>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex-absolute;
+            justify-content: flex-absolute;
+            align-items: flex-absolute;
+            height: 100vh;
+            background-color: ;
+        }
+        iframe {
+            width: 929px; /* Typical phone width */
+            height: 812px; /* Typical phone height */
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+    </style>
+
+</div>
+</html>
+</html>
 
     <div class="top">
         <h1>{{title}}</h1>
