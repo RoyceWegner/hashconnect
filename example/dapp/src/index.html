@@ -9,5 +9,25 @@
 </head>
 <body>
   <app-root></app-root>
+
+  <!-- Live Console Output -->
+  <div id="consoleOutput" style="background:#111;color:#0f0; padding:1rem; font-family:monospace; font-size:0.9rem; height:200px; overflow-y:auto; border-top:1px solid #444;"></div>
+
+  <script>
+    // Live console mirroring
+    const logContainer = document.getElementById('consoleOutput');
+    ['log', 'warn', 'error', 'info'].forEach((fn) => {
+      const original = console[fn];
+      console[fn] = function (...args) {
+        original.apply(console, args);
+        const msg = args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ');
+        const entry = document.createElement('div');
+        entry.style.color = fn === 'error' ? '#f55' : fn === 'warn' ? '#ff5' : '#0f0';
+        entry.textContent = `[${fn.toUpperCase()}] ${msg}`;
+        logContainer.appendChild(entry);
+        logContainer.scrollTop = logContainer.scrollHeight;
+      };
+    });
+  </script>
 </body>
 </html>
