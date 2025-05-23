@@ -31,7 +31,6 @@
         <button class="primary" (click)="pair()" [disabled]="HashConnectService.state == 'Paired' || HashConnectService.state == 'Disconnected'">Pair</button>
         <button class="primary" (click)="HashConnectService.disconnect()" [disabled]="HashConnectService.state != 'Paired'">Disconnect</button>
 
-
     <pre class="data" *ngIf="viewData">
         {{ HashConnectService.hashconnect | json }}
     </pre>
