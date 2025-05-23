@@ -36,6 +36,8 @@ import { HashconnectService } from './services/hashconnect.service';
 import { SigningService } from './services/signing.service';
 import { TradingBotService } from './services/tradingbot.service';
 
+import { cryptodashboardcomponent } from './components/crypto-dashboard/crypto-dashboard.component';
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
