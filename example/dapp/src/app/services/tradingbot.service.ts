@@ -6,6 +6,7 @@ import { AccountId, PrivateKey, Client, TokenId } from '@hashgraph/sdk';
 })
 export class TradingBotService {
   private client: Client;
+  // Retaining the on-chain token IDs for possible swap functionality.
   private sauceTokenId = TokenId.fromString('0.0.731861');
   private usdTokenId = TokenId.fromString('0.0.456858');
   private accountId = AccountId.fromString('0.0.8027099'); // Replace with your account ID
@@ -58,11 +59,13 @@ export class TradingBotService {
 
   private async getSaucePriceInUSD(): Promise<number> {
     try {
-      const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=sauce-inu,usd-coin&sparkline=false';
+      // Modified API call to use 'saucerswap' as the token id, which should reflect your CoinGecko setup.
+      const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=saucerswap,usd-coin&sparkline=false';
       const response = await fetch(url);
       const data = await response.json();
 
-      const sauceData = data.find((token: any) => token.id === 'sauce-inu');
+      // Find the token data using the updated id 'saucerswap'
+      const sauceData = data.find((token: any) => token.id === 'saucerswap');
 
       if (!sauceData || !sauceData.current_price) {
         throw new Error('SAUCE price data not available');
