@@ -46,7 +46,7 @@ export class TradingBotService {
       } else {
         console.log('⏳ No trades available yet... waiting...');
       }
-    }, 60000); // every 60 seconds
+    }, 45000); // every 45 seconds
   }
 
   stopAutoTrade() {
