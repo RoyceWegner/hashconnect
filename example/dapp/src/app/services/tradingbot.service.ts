@@ -58,33 +58,19 @@ export class TradingBotService {
 
   private async getSaucePriceInUSD(): Promise<number> {
     try {
-      // Replace these pair IDs with correct ones if needed
-      const [sauceHbarRes, hbarUsdcRes] = await Promise.all([
-        fetch('https://api.saucerswap.finance/pairs/0.0.731861-0.0.456858'), // SAUCE/WHBAR (placeholder)
-        fetch('https://api.saucerswap.finance/pairs/0.0.456858-0.0.456858')  // WHBAR/USDC (placeholder)
-      ]);
+      // Replace this URL with your real data source
+      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=sauce&vs_currencies=usd');
+      const data = await response.json();
+      const price = data?.sauce?.usd;
 
-      const sauceHbar = await sauceHbarRes.json();
-      const hbarUsdc = await hbarUsdcRes.json();
-
-      const saucePerHbar = sauceHbar.token0.symbol === 'SAUCE'
-        ? parseFloat(sauceHbar.token0_price)
-        : 1 / parseFloat(sauceHbar.token1_price);
-
-      const hbarPerUsd = hbarUsdc.token0.symbol === 'HBAR'
-        ? 1 / parseFloat(hbarUsdc.token0_price)
-        : parseFloat(hbarUsdc.token1_price);
-
-      const saucePerUsd = saucePerHbar * hbarPerUsd;
-
-      if (!saucePerUsd || isNaN(saucePerUsd)) {
-        throw new Error('Invalid price calculation');
+      if (price === undefined) {
+        throw new Error('Price data not available');
       }
 
-      return saucePerUsd;
+      return price;
     } catch (error) {
       console.error('❌ Failed to fetch live SAUCE price:', error);
-      return this.initialPrice ?? 1.0; // fallback
+      return this.initialPrice ?? 1.0; // fallback to last known or dummy value
     }
   }
 
