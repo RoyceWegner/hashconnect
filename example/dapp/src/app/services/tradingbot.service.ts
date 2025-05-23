@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AccountId, PrivateKey, Client, TransferTransaction, TokenId } from '@hashgraph/sdk';
+import { AccountId, PrivateKey, Client, TokenId } from '@hashgraph/sdk';
 
 @Injectable({
   providedIn: 'root'
@@ -20,46 +20,67 @@ export class TradingBotService {
   }
 
   startAutoTrade() {
+    console.log('🤖 Auto trading started. Waiting for price checks...');
+
     this.autoTradeInterval = setInterval(async () => {
       const currentPrice = await this.getSaucePriceInUSD();
+      console.log(`📈 Current SAUCE price: $${currentPrice}`);
+
       if (this.initialPrice === null) {
         this.initialPrice = currentPrice;
+        console.log(`📌 Initial price set to $${currentPrice}`);
         return;
       }
 
       const priceChange = (currentPrice - this.initialPrice) / this.initialPrice;
+      console.log(`📊 Price change: ${(priceChange * 100).toFixed(2)}%`);
 
       if (priceChange >= 0.04) {
+        console.log('📈 Price increased ≥ 4% — Swapping SAUCE to USD');
         await this.swapSauceToUSD();
         this.initialPrice = currentPrice;
       } else if (priceChange <= -0.04) {
+        console.log('📉 Price decreased ≤ -4% — Swapping USD to SAUCE');
         await this.swapUSDToSauce();
         this.initialPrice = currentPrice;
+      } else {
+        console.log('⏳ No trades available yet... waiting...');
       }
-    }, 60000); // Check every 60 seconds
+    }, 60000); // every 60 seconds
   }
 
   stopAutoTrade() {
     clearInterval(this.autoTradeInterval);
     this.autoTradeInterval = null;
     this.initialPrice = null;
+    console.log('🛑 Auto trading stopped.');
   }
 
   private async getSaucePriceInUSD(): Promise<number> {
-    // Implement price fetching logic here
-    // This could be an API call to a price oracle or exchange
-    return 1.0; // Placeholder value
+    try {
+      // Replace this URL with your real data source
+      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=sauce&vs_currencies=usd');
+      const data = await response.json();
+      const price = data?.sauce?.usd;
+
+      if (price === undefined) {
+        throw new Error('Price data not available');
+      }
+
+      return price;
+    } catch (error) {
+      console.error('❌ Failed to fetch live SAUCE price:', error);
+      return this.initialPrice ?? 1.0; // fallback to last known or dummy value
+    }
   }
 
   private async swapSauceToUSD() {
-    // Implement token swap logic here
-    // This could involve interacting with a DEX smart contract
-    console.log('Swapping SAUCE to USD');
+    console.log('🔄 Executing SAUCE → USD swap...');
+    // Implement real token swap logic here (e.g. DEX call)
   }
 
   private async swapUSDToSauce() {
-    // Implement token swap logic here
-    // This could involve interacting with a DEX smart contract
-    console.log('Swapping USD to SAUCE');
+    console.log('🔄 Executing USD → SAUCE swap...');
+    // Implement real token swap logic here (e.g. DEX call)
   }
 }
