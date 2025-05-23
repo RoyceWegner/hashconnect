@@ -22,13 +22,6 @@
         </div>
     </div>
 
-
-
-    <div class="buttons">
-        <div>
-            <input type="checkbox" [(ngModel)]="viewData"> View HashConnect Data
-        </div>
-
                 <h3>Auto Trading</h3>
 <button class="primary" (click)="startAutoTrade()" [disabled]="autoTradeRunning || HashConnectService.state != 'Paired'">
     Start Auto Trade
