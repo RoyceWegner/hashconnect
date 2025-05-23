@@ -7,14 +7,6 @@
 
         <h3>Connected to: {{ HashConnectService.pairingData?.metadata | json }}</h3>
 
-        <h3>Auto Trading</h3>
-<button class="primary" (click)="startAutoTrade()" [disabled]="autoTradeRunning || HashConnectService.state != 'Paired'">
-    Start Auto Trade
-</button>
-<button class="primary" (click)="stopAutoTrade()" [disabled]="!autoTradeRunning">
-    Stop Auto Trade
-</button>
-
 
         <div class="profile" *ngIf="HashConnectService.userProfile">
             <div class="profile_wrap">
@@ -39,6 +31,15 @@
         <div>
             <input type="checkbox" [(ngModel)]="viewData"> View HashConnect Data
         </div>
+
+                <h3>Auto Trading</h3>
+<button class="primary" (click)="startAutoTrade()" [disabled]="autoTradeRunning || HashConnectService.state != 'Paired'">
+    Start Auto Trade
+</button>
+<button class="primary" (click)="stopAutoTrade()" [disabled]="!autoTradeRunning">
+    Stop Auto Trade
+</button>
+
         <button class="primary" (click)="pair()" [disabled]="HashConnectService.state == 'Paired' || HashConnectService.state == 'Disconnected'">Pair</button>
         <button class="primary" (click)="HashConnectService.disconnect()" [disabled]="HashConnectService.state != 'Paired'">Disconnect</button>
         <button class="primary" (click)="auth()" [disabled]="HashConnectService.state != 'Paired'">Authenticate</button>
