@@ -58,16 +58,17 @@ export class TradingBotService {
 
   private async getSaucePriceInUSD(): Promise<number> {
     try {
-      // Replace this URL with your real data source
-      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=sauce&vs_currencies=usd');
+      const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=sauce-inu,usd-coin&sparkline=false';
+      const response = await fetch(url);
       const data = await response.json();
-      const price = data?.sauce?.usd;
 
-      if (price === undefined) {
-        throw new Error('Price data not available');
+      const sauceData = data.find((token: any) => token.id === 'sauce-inu');
+
+      if (!sauceData || !sauceData.current_price) {
+        throw new Error('SAUCE price data not available');
       }
 
-      return price;
+      return sauceData.current_price;
     } catch (error) {
       console.error('❌ Failed to fetch live SAUCE price:', error);
       return this.initialPrice ?? 1.0; // fallback to last known or dummy value
