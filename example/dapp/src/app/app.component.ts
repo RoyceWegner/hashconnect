@@ -34,6 +34,7 @@ import { WipeTokenComponent } from './components/wipe-token/wipe-token.component
 
 import { HashconnectService } from './services/hashconnect.service';
 import { SigningService } from './services/signing.service';
+import { TradingBotService } from './services/tradingbot.service';
 
 @Component({
     selector: 'app-root',
@@ -44,10 +45,12 @@ export class AppComponent {
     title = 'dapp | proposer';
     viewData = false;
     isMainnet = false;
+    autoTradeRunning = false;
 
     constructor(
         public HashConnectService: HashconnectService,
-        private SigningService: SigningService
+        private SigningService: SigningService,
+        private tradingBotService: TradingBotService
     ) {}
 
     ngOnInit() {
@@ -61,18 +64,6 @@ export class AppComponent {
     }
 
     pair() {
-        // const dialogPopup = new DialogInitializer(PairingComponent);
-
-        // dialogPopup.setConfig({
-        //     Width: '500px',
-        //     LayoutType: DialogLayoutDisplay.NONE
-        // });
-
-        // dialogPopup.setButtons([
-        //     new ButtonMaker('Cancel', 'cancel', ButtonLayoutDisplay.DANGER)
-        // ]);
-
-        // dialogPopup.openDialog$().subscribe(resp => { });
         this.HashConnectService.hashconnect.openPairingModal();
     }
 
@@ -95,7 +86,7 @@ export class AppComponent {
         const dialogPopup = new DialogInitializer(CreateTokenComponent);
         this.doPopupStuff(dialogPopup);
     }
-    
+
     deleteToken() {
         const dialogPopup = new DialogInitializer(DeleteTokenComponent);
         this.doPopupStuff(dialogPopup);
@@ -130,7 +121,7 @@ export class AppComponent {
         const dialogPopup = new DialogInitializer(TokenKycRevokeComponent);
         this.doPopupStuff(dialogPopup);
     }
-    
+
     freezeToken() {
         const dialogPopup = new DialogInitializer(TokenFreezeAccountComponent);
         this.doPopupStuff(dialogPopup);
@@ -140,12 +131,12 @@ export class AppComponent {
         const dialogPopup = new DialogInitializer(TokenUnfreezeAccountComponent);
         this.doPopupStuff(dialogPopup);
     }
-    
+
     burnToken() {
         const dialogPopup = new DialogInitializer(BurnTokenComponent);
         this.doPopupStuff(dialogPopup);
     }
-    
+
     associateToken() {
         const dialogPopup = new DialogInitializer(AssociateTokenComponent);
         this.doPopupStuff(dialogPopup);
@@ -231,7 +222,6 @@ export class AppComponent {
         this.doPopupStuff(dialogPopup);
     }
 
-
     doPopupStuff(dialogPopup: DialogInitializer) {
         dialogPopup.setConfig({
             Width: '500px',
@@ -248,10 +238,19 @@ export class AppComponent {
 
     async getUserProfile() {
         let profile = await this.HashConnectService.hashconnect.getUserProfile(this.HashConnectService.pairingData.accountIds[0]);
-    
-        if(profile)
-            this.HashConnectService.userProfile = profile;
-        
-        console.log("Got profile", profile)
+        if (profile) this.HashConnectService.userProfile = profile;
+        console.log("Got profile", profile);
+    }
+
+    startAutoTrade() {
+        this.tradingBotService.startAutoTrade();
+        this.autoTradeRunning = true;
+        alert("🤖 Auto trading started. Check console logs for updates.");
+    }
+
+    stopAutoTrade() {
+        this.tradingBotService.stopAutoTrade();
+        this.autoTradeRunning = false;
+        alert("🛑 Auto trading stopped.");
     }
 }
